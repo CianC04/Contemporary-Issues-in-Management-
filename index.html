@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manchester United: The Crisis Years</title>
+  <meta name="theme-color" content="#080b0e"/>
+  <meta property="og:title" content="Manchester United: The Crisis Years"/>
+  <meta property="og:description" content="A data story about 20 years of mismanagement, debt and decline at Old Trafford."/>
+  <meta property="og:type" content="website"/>
+  <style>
+    :root{
+      --bg:#080b0e;--card:#10171f;--border:rgba(255,255,255,.06);
+      --text:#e8eef6;--muted:#8a95a5;--red:#da291c;--red2:#b52218;
+      --red-glow:rgba(218,41,28,.1);--blue:#8ab4ff;--gold:#ffc843;--green:#4ade80;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    a{color:var(--blue)}
+    .wrap{width:min(1120px,94vw);margin:0 auto}
+
+    /* LOADER */
+    #loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s ease}
+    #loader.done{opacity:0;pointer-events:none}
+    .loader-crest{font-size:56px;animation:pulse 1s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+    .loader-bar-wrap{width:220px;height:4px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+    .loader-bar{height:100%;background:var(--red);border-radius:999px;animation:load 1.8s ease forwards}
+    @keyframes load{0%{width:0%}100%{width:100%}}
+    .loader-txt{font-size:13px;color:var(--muted);letter-spacing:.06em}
+
+    /* PROGRESS */
+    #progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:9998;width:0%;transition:width .1s linear}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(8,11,14,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 0;gap:8px}
+    .nav-links{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-btn{flex-shrink:0;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .nav-btn:hover,.nav-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,.04);flex-shrink:0}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .nav-drawer{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(8,11,14,.98);border-bottom:1px solid var(--border);padding:12px 0;z-index:99;max-height:70vh;overflow-y:auto}
+    .nav-drawer.open{display:block}
+    .nav-drawer .wrap{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .nav-drawer .nav-btn{text-align:left;border-radius:10px;padding:12px 14px;white-space:normal;line-height:1.3}
+    @media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}}
+    @media(min-width:769px){.nav-drawer{display:none!important}}
+
+    /* TICKER */
+    .ticker{background:var(--red);padding:8px 0;overflow:hidden;white-space:nowrap}
+    .ticker-inner{display:inline-block;animation:ticker 55s linear infinite}
+    .ticker:hover .ticker-inner{animation-play-state:paused}
+    @keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+    .ticker span{font-size:12px;font-weight:600;color:#fff;margin-right:60px}
+    .ticker span::before{content:"🔴 ";margin-right:4px}
+    @media(max-width:480px){.ticker span{margin-right:36px}}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,#1a0404 0%,#100202 45%,var(--bg) 100%);padding:72px 0 56px;border-bottom:1px solid var(--border)}
+    .tag{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:20px}
+    .updated-badge{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:4px 12px;border-radius:999px;margin-left:8px;vertical-align:middle}
+    .updated-badge span{color:var(--green)}
+    .read-time-badge{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:4px 12px;border-radius:999px;margin-left:8px;vertical-align:middle}
+    h1{font-size:clamp(30px,5.5vw,60px);line-height:1.04;font-weight:800;letter-spacing:-.02em;max-width:24ch}
+    h1 span{color:var(--red)}
+    .hero-sub{color:var(--muted);max-width:60ch;margin-top:16px;font-size:clamp(14px,1.8vw,17px)}
+    .stat-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:40px}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px}
+    .stat-val{font-size:clamp(18px,3vw,32px);font-weight:800;color:var(--red)}
+    .stat-lbl{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4}
+
+    /* BREAKING CARDS */
+    .breaking-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:20px 0}
+    .breaking-card{background:var(--card);border:1px solid rgba(218,41,28,.3);border-radius:14px;padding:16px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
+    .breaking-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+    .breaking-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+    .breaking-card.green::before{background:var(--green)}
+    .breaking-card.green{border-color:rgba(74,222,128,.3)}
+    .breaking-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+    .breaking-card.green .breaking-label{color:var(--green)}
+    .breaking-title{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:6px}
+    .breaking-body{font-size:13px;color:var(--muted);line-height:1.55}
+    .breaking-body.collapsed{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+    .read-more-btn{background:none;border:none;color:var(--blue);font-size:12px;font-weight:600;cursor:pointer;padding:6px 0 0;display:block}
+    .breaking-date{font-size:11px;color:var(--muted);margin-top:8px;opacity:.7}
+
+    /* BEFORE/AFTER */
+    .ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:20px 0;border-radius:16px;overflow:hidden;border:1px solid var(--border)}
+    .ba-col{padding:20px}
+    .ba-col.before{background:rgba(138,180,255,.06)}
+    .ba-col.after{background:rgba(218,41,28,.06)}
+    .ba-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+    .ba-col.before .ba-label{color:var(--blue)}
+    .ba-col.after .ba-label{color:var(--red)}
+    .ba-stat{margin-bottom:12px}
+    .ba-val{font-size:22px;font-weight:800}
+    .ba-col.before .ba-val{color:var(--blue)}
+    .ba-col.after .ba-val{color:var(--red)}
+    .ba-desc{font-size:12px;color:var(--muted);margin-top:2px}
+    @media(max-width:560px){
+      .ba-grid{grid-template-columns:1fr}
+      .ba-col.before{border-bottom:1px solid var(--border)}
+      .ba-val{font-size:18px}
+    }
+
+    /* CHAPTER */
+    .chapter{padding:60px 0;border-bottom:1px solid var(--border);scroll-margin-top:52px;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .chapter.visible{opacity:1;transform:translateY(0)}
+    .ch-inner{display:grid;grid-template-columns:1fr;gap:32px;align-items:start}
+    @media(min-width:860px){
+      .ch-inner{grid-template-columns:1fr 1.25fr;gap:48px}
+      .ch-inner.flip{direction:rtl}
+      .ch-inner.flip>*{direction:ltr}
+    }
+    .ch-num{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+    h2{font-size:clamp(20px,2.6vw,30px);font-weight:800;line-height:1.12;margin-bottom:14px;letter-spacing:-.01em}
+    .ch-text p{color:var(--muted);font-size:15px;margin-bottom:13px;max-width:52ch}
+    .ch-text p b{color:var(--text)}
+    .callout{border-left:3px solid var(--red);background:var(--red-glow);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0}
+    .callout p{margin:0;font-size:13px;color:var(--muted)}
+    @media(max-width:480px){.callout{padding:10px 10px 10px 12px}}
+    .opinion{border:1px solid rgba(138,180,255,.18);background:rgba(138,180,255,.04);border-radius:14px;padding:16px;margin:14px 0}
+    .op-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+    .opinion p{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+    .opinion p:last-child{margin-bottom:0}
+
+    /* GOVERNANCE GRID */
+    .gov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:16px 0}
+    @media(max-width:480px){.gov-grid{grid-template-columns:1fr}}
+    .gov-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+    .gov-card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+    .gov-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+    .gov-card-body{font-size:12px;color:var(--muted);line-height:1.5}
+
+    /* MANAGEMENT THEORY */
+    .theory-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:20px 0}
+    @media(max-width:480px){.theory-grid{grid-template-columns:1fr}}
+    .theory-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden}
+    @media(max-width:480px){.theory-card{padding:14px 12px}}
+    .theory-card::before{content:"";position:absolute;top:0;left:0;bottom:0;width:3px}
+    .theory-card.agency::before{background:#f87171}
+    .theory-card.stakeholder::before{background:var(--blue)}
+    .theory-card.culture::before{background:var(--gold)}
+    .theory-card.shortterm::before{background:var(--green)}
+    .theory-card.contingency::before{background:#c084fc}
+    .theory-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;line-height:1.4}
+    .agency .theory-label{color:#f87171}
+    .stakeholder .theory-label{color:var(--blue)}
+    .culture .theory-label{color:var(--gold)}
+    .shortterm .theory-label{color:var(--green)}
+    .contingency .theory-label{color:#c084fc}
+    .theory-title{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.3}
+    .theory-body{font-size:13px;color:var(--muted);line-height:1.6}
+    .theory-verdict{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;font-weight:600}
+    .agency .theory-verdict{color:#f87171}
+    .stakeholder .theory-verdict{color:var(--blue)}
+    .culture .theory-verdict{color:var(--gold)}
+    .shortterm .theory-verdict{color:var(--green)}
+    .contingency .theory-verdict{color:#c084fc}
+    .theory-intro{color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:6px;line-height:1.65}
+    .theory-conclusion{background:rgba(218,41,28,.07);border:1px solid rgba(218,41,28,.2);border-radius:14px;padding:18px;margin-top:20px}
+    .theory-conclusion h3{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--text)}
+    .theory-conclusion p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+    .theory-conclusion p:last-child{margin-bottom:0}
+
+    /* MANAGER TIMELINE */
+    .timeline{margin:18px 0;position:relative}
+    .timeline::before{content:"";position:absolute;left:70px;top:0;bottom:0;width:2px;background:var(--border)}
+    @media(max-width:400px){.timeline::before{left:52px}}
+    .t-item{display:flex;gap:16px;padding:10px 0;position:relative}
+    .t-dot{position:absolute;left:63px;top:14px;width:16px;height:16px;border-radius:50%;border:2px solid var(--red);background:var(--bg);z-index:1}
+    @media(max-width:400px){.t-dot{left:45px;width:14px;height:14px}}
+    .t-dot.sacked{background:var(--red)}
+    .t-yr{font-size:11px;color:var(--muted);min-width:56px;padding-top:2px;text-align:right}
+    @media(max-width:400px){.t-yr{font-size:10px;min-width:38px}}
+    .t-body{padding-left:32px}
+    @media(max-width:400px){.t-body{padding-left:24px}}
+    .t-name{font-size:14px;font-weight:700}
+    .t-note{font-size:12px;color:var(--muted);margin-top:2px}
+    .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:middle}
+    .badge.sacked{background:rgba(218,41,28,.18);color:#f87171}
+    .badge.ok{background:rgba(138,180,255,.12);color:var(--blue)}
+    .badge.current{background:rgba(255,200,67,.12);color:var(--gold)}
+
+    /* TROPHY GRID */
+    .trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin:14px 0}
+    .trophy{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+    .trophy-icon{font-size:24px}
+    .trophy-name{font-size:12px;font-weight:600;margin-top:4px}
+    .trophy-yr{font-size:11px;color:var(--muted)}
+    .trophy.drought{border-color:rgba(218,41,28,.3);background:rgba(218,41,28,.05)}
+    .trophy.drought .trophy-icon{opacity:.3}
+    .trophy.drought .trophy-name{color:var(--muted)}
+
+    /* TRANSFER GRAVEYARD */
+    .graveyard-intro{color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:20px;line-height:1.65}
+    .graveyard-scroll{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:0}
+    @media(min-width:860px){
+      .graveyard-scroll{display:flex;overflow-x:auto;gap:14px;padding-bottom:16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+      .graveyard-scroll::-webkit-scrollbar{height:4px}
+      .graveyard-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:999px}
+      .graveyard-scroll::-webkit-scrollbar-thumb{background:rgba(218,41,28,.4);border-radius:999px}
+    }
+    .grave-card{background:var(--card);border:1px solid rgba(218,41,28,.25);border-radius:16px;padding:18px;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;flex-shrink:0;width:260px}
+    @media(max-width:859px){.grave-card{width:100%}}
+    .grave-card:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(218,41,28,.15)}
+    .grave-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red2),var(--red))}
+    .grave-emoji{font-size:28px;margin-bottom:8px}
+    .grave-name{font-size:16px;font-weight:800;margin-bottom:2px}
+    .grave-pos{font-size:11px;color:var(--muted);margin-bottom:10px}
+    .grave-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+    .grave-stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:8px}
+    .grave-stat-val{font-size:15px;font-weight:800}
+    .grave-stat-val.red{color:var(--red)}
+    .grave-stat-val.muted{color:var(--muted)}
+    .grave-stat-val.gold{color:var(--gold)}
+    .grave-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+    .grave-who{font-size:11px;color:var(--muted);margin-bottom:8px}
+    .grave-who b{color:var(--text)}
+    .grave-verdict{font-size:12px;font-weight:700;padding:7px 10px;border-radius:8px;line-height:1.4}
+    .grave-verdict.disaster{background:rgba(218,41,28,.12);color:#f87171;border:1px solid rgba(218,41,28,.2)}
+    .grave-verdict.mixed{background:rgba(255,200,67,.08);color:var(--gold);border:1px solid rgba(255,200,67,.15)}
+    .grave-verdict.ok{background:rgba(138,180,255,.08);color:var(--blue);border:1px solid rgba(138,180,255,.15)}
+    .graveyard-total{display:flex;align-items:center;gap:16px;background:rgba(218,41,28,.07);border:1px solid rgba(218,41,28,.2);border-radius:14px;padding:16px 20px;margin-top:20px;flex-wrap:wrap}
+    .graveyard-total-val{font-size:28px;font-weight:800;color:var(--red)}
+    .graveyard-total-lbl{font-size:13px;color:var(--muted);line-height:1.5}
+
+    /* CHART BOX + SKELETON */
+    .chart-box{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;width:100%;position:relative}
+    .chart-title-bar{padding:16px 18px 4px;font-size:14px;font-weight:700;white-space:normal;line-height:1.3}
+    .chart-sub{padding:0 18px 4px;font-size:12px;color:var(--muted);white-space:normal;line-height:1.4}
+    .chart-src{padding:2px 18px 12px;font-size:11px;color:var(--muted)}
+    .chart-src a{color:var(--blue)}
+    .plotly-div{width:100%;height:300px;position:relative;z-index:1}
+    @media(min-width:860px){.plotly-div{height:400px}}
+    @media(max-width:480px){
+      .plotly-div{height:260px}
+      #chart-wage{height:360px!important}
+    }
+    .chart-skeleton{position:absolute;left:18px;right:18px;bottom:32px;top:70px;border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.6s infinite;z-index:0;transition:opacity .4s ease}
+    .chart-skeleton.hidden{opacity:0;pointer-events:none}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    /* Plotly CDN fallback */
+    .chart-fallback{display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;height:200px;color:var(--muted);font-size:13px;text-align:center;padding:20px}
+    .chart-fallback svg{opacity:.4}
+    .chart-fallback.show{display:flex}
+
+    /* DEBT METER */
+    .debt-meter{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:14px}
+    .debt-label{font-size:12px;color:var(--muted);margin-bottom:8px}
+    .debt-bar-wrap{background:rgba(255,255,255,.05);border-radius:999px;height:14px;overflow:hidden;margin-bottom:10px}
+    .debt-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red2),var(--red));transition:width 1.4s ease;width:0%}
+    .debt-val{font-size:28px;font-weight:800;color:var(--red)}
+    .debt-desc{font-size:12px;color:var(--muted);margin-top:4px}
+
+    /* EVENT TIMELINE */
+    .event-timeline{position:relative;padding-left:0;margin-top:8px}
+    .event-timeline::before{content:"";position:absolute;left:54px;top:0;bottom:0;width:2px;background:var(--border)}
+    @media(max-width:600px){.event-timeline::before{left:36px}}
+    @media(max-width:360px){.event-timeline::before{left:28px}}
+    .event-item{display:flex;gap:0;margin-bottom:6px;align-items:flex-start}
+    .event-left{display:flex;flex-direction:column;align-items:center;min-width:110px;padding-top:18px;position:relative}
+    @media(max-width:600px){.event-left{min-width:76px}}
+    @media(max-width:360px){.event-left{min-width:58px}}
+    .event-yr{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-align:center}
+    @media(max-width:360px){.event-yr{font-size:10px}}
+    .event-dot{width:14px;height:14px;border-radius:50%;border:2px solid;z-index:1;flex-shrink:0}
+    .event-dot.anger{background:var(--red);border-color:var(--red)}
+    .event-dot.positive{background:var(--green);border-color:var(--green)}
+    .event-dot.neutral{background:var(--gold);border-color:var(--gold)}
+    .event-dot.revolt{background:var(--red);border-color:#ff8a80;box-shadow:0 0 10px rgba(218,41,28,.7)}
+    .event-card{flex:1;margin-left:20px;margin-bottom:10px;border-radius:14px;padding:14px 16px;border:1px solid var(--border)}
+    @media(max-width:480px){.event-card{padding:12px;margin-left:12px}}
+    .event-card.anger{background:rgba(218,41,28,.06);border-color:rgba(218,41,28,.2)}
+    .event-card.positive{background:rgba(74,222,128,.05);border-color:rgba(74,222,128,.2)}
+    .event-card.neutral{background:rgba(255,200,67,.05);border-color:rgba(255,200,67,.2)}
+    .event-card.revolt{background:rgba(218,41,28,.11);border-color:rgba(218,41,28,.45)}
+    .event-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .anger-tag{color:#f87171}
+    .positive-tag{color:var(--green)}
+    .neutral-tag{color:var(--gold)}
+    .revolt-tag{color:#f87171}
+    .event-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3}
+    .event-body{font-size:13px;color:var(--muted);line-height:1.6}
+
+    /* FACT KEY */
+    .fact-key{position:fixed;bottom:72px;right:16px;background:rgba(8,11,14,.92);border:1px solid var(--border);border-radius:12px;padding:10px 14px;font-size:11px;z-index:200;backdrop-filter:blur(10px);line-height:1.9;pointer-events:none}
+    @media(max-width:480px){.fact-key{right:auto;left:12px;bottom:72px;font-size:10px;padding:8px 10px}}
+    .fact-key div{display:flex;align-items:center;gap:7px;color:var(--muted)}
+    .fk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+    /* BACK TO TOP */
+    #back-top{position:fixed;bottom:20px;right:16px;width:40px;height:40px;background:var(--red);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:201;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;box-shadow:0 4px 16px rgba(218,41,28,.4)}
+    #back-top.visible{opacity:1;transform:translateY(0)}
+    #back-top svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+    /* SOURCES AND FOOTER */
+    .sources{background:var(--card);border-top:1px solid var(--border);padding:40px 0}
+    .sources h3{font-size:16px;font-weight:700;margin-bottom:14px}
+    .sources ul{list-style:none}
+    .sources li{font-size:13px;color:var(--muted);padding:9px 0;border-bottom:1px solid var(--border);line-height:1.5}
+    .sources li:last-child{border-bottom:none}
+    footer{background:#050709;padding:22px 0;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
+    footer span{white-space:nowrap}
+
+    /* REDUCED MOTION */
+    @media(prefers-reduced-motion:reduce){
+      .ticker-inner,.loader-crest,.loader-bar,.chart-skeleton{animation:none!important}
+      .chapter{opacity:1!important;transform:none!important;transition:none!important}
+    }
+
+    /* PRINT */
+    @media print{
+      #loader,#progress,nav,.ticker,.fact-key,#back-top{display:none!important}
+      .chapter{opacity:1!important;transform:none!important;page-break-inside:avoid}
+      body{background:#fff;color:#111}
+      .chart-box{border:1px solid #ddd}
+      .chart-skeleton{display:none}
+      .grave-card{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-crest">🔴</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-txt">Loading the crisis data...</div>
+</div>
+
+<div id="progress"></div>
+
+<!-- FACT KEY -->
+<div class="fact-key">
+  <div><span class="fk-dot" style="background:var(--red)"></span>Verified data</div>
+  <div><span class="fk-dot" style="background:var(--blue)"></span>Analysis</div>
+  <div><span class="fk-dot" style="background:var(--gold)"></span>Developing story</div>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Carrick appointed 13 Jan 2026 - United top the 2026 PL form table, 4th on 44 pts</span>
+    <span>Ratcliffe "colonised by immigrants" row - FA declines to charge - Kick It Out "disappointed"</span>
+    <span>INEOS battling £18bn of its own corporate debt - Ratcliffe may step back from United</span>
+    <span>United confirm 100,000-seat new stadium ambition - Foster + Partners appointed</span>
+    <span>Net club debt hits £749m record - ESPN, December 2025</span>
+    <span>Deloitte Money League 2026: United fall to 8th - lowest ever rank</span>
+    <span>United record £666.5m revenue in FY2025 - yet still post a £33m loss</span>
+    <span>Amorim sacked January 2026 after just 14 months - 10th managerial regime since Ferguson</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-inner">
+      <div class="nav-links">
+        <button class="nav-btn active" onclick="goTo('hero')">🔴 Overview</button>
+        <button class="nav-btn" onclick="goTo('ch-now')">🚨 Right Now</button>
+        <button class="nav-btn" onclick="goTo('ch-governance')">🏛 Governance</button>
+        <button class="nav-btn" onclick="goTo('ch-ba')">📊 Before &amp; After</button>
+        <button class="nav-btn" onclick="goTo('ch1')">💰 Money</button>
+        <button class="nav-btn" onclick="goTo('ch2')">📉 Pitch</button>
+        <button class="nav-btn" onclick="goTo('ch3')">🏆 Trophies</button>
+        <button class="nav-btn" onclick="goTo('ch4')">💸 Transfers</button>
+        <button class="nav-btn" onclick="goTo('ch-graveyard')">⚰️ Graveyard</button>
+        <button class="nav-btn" onclick="goTo('ch5')">📺 Brand</button>
+        <button class="nav-btn" onclick="goTo('ch-wage')">💼 Wages</button>
+        <button class="nav-btn" onclick="goTo('ch-sentiment')">😡 Fan Revolt</button>
+        <button class="nav-btn" onclick="goTo('ch-theory')">🎓 Management</button>
+        <button class="nav-btn" onclick="goTo('ch6')">⚠️ Analysis</button>
+      </div>
+      <div class="hamburger" id="hamburger" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="wrap">
+        <button class="nav-btn" onclick="goTo('hero');toggleNav()">🔴 Overview</button>
+        <button class="nav-btn" onclick="goTo('ch-now');toggleNav()">🚨 Right Now</button>
+        <button class="nav-btn" onclick="goTo('ch-governance');toggleNav()">🏛 Governance</button>
+        <button class="nav-btn" onclick="goTo('ch-ba');toggleNav()">📊 Before &amp; After</button>
+        <button class="nav-btn" onclick="goTo('ch1');toggleNav()">💰 Money</button>
+        <button class="nav-btn" onclick="goTo('ch2');toggleNav()">📉 Pitch</button>
+        <button class="nav-btn" onclick="goTo('ch3');toggleNav()">🏆 Trophies</button>
+        <button class="nav-btn" onclick="goTo('ch4');toggleNav()">💸 Transfers</button>
+        <button class="nav-btn" onclick="goTo('ch-graveyard');toggleNav()">⚰️ Graveyard</button>
+        <button class="nav-btn" onclick="goTo('ch5');toggleNav()">📺 Brand</button>
+        <button class="nav-btn" onclick="goTo('ch-wage');toggleNav()">💼 Wages</button>
+        <button class="nav-btn" onclick="goTo('ch-sentiment');toggleNav()">😡 Fan Revolt</button>
+        <button class="nav-btn" onclick="goTo('ch-theory');toggleNav()">🎓 Management</button>
+        <button class="nav-btn" onclick="goTo('ch6');toggleNav()">⚠️ Analysis</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div>
+      <span class="tag">Data Story · 2005 to February 2026</span>
+      <span class="updated-badge">Last updated <span>23 Feb 2026</span></span>
+      <span class="read-time-badge">~16 min read</span>
+    </div>
+    <h1>How Manchester United <span>lost two decades</span> to mismanagement</h1>
+    <p class="hero-sub">Leveraged buyout, financial extraction, transfer chaos, a manager merry-go-round, and a new ownership already repeating old mistakes. The full story in data, updated to 23 February 2026.</p>
+    <div class="stat-bar">
+      <div class="stat"><div class="stat-val counter" data-target="1200" data-prefix="~£" data-suffix="m">~£0m</div><div class="stat-lbl">Extracted via debt interest, dividends and fees - BBC Verify, 2025</div></div>
+      <div class="stat"><div class="stat-val counter" data-target="42" data-suffix=" pts">0 pts</div><div class="stat-lbl">2024/25 PL points - worst Premier League season in modern history</div></div>
+      <div class="stat"><div class="stat-val">8th</div><div class="stat-lbl">Deloitte Money League 2026 - lowest ever rank for the club</div></div>
+      <div class="stat"><div class="stat-val counter" data-target="749" data-prefix="£" data-suffix="m">£0m</div><div class="stat-lbl">Net club debt mid-2025 - a record - ESPN, Dec 2025</div></div>
+      <div class="stat"><div class="stat-val counter" data-target="13" data-suffix=" yrs">0 yrs</div><div class="stat-lbl">Since last Premier League title - 2013 to February 2026</div></div>
+      <div class="stat"><div class="stat-val counter" data-target="10" data-suffix="+ mgrs">0+ mgrs</div><div class="stat-lbl">Managerial regimes since Ferguson - Carrick is 10th</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RIGHT NOW -->
+<div class="chapter" id="ch-now">
+  <div class="wrap">
+    <div class="ch-num">🚨 Current Crisis - February 2026</div>
+    <h2>The crisis is not history. It is happening right now.</h2>
+    <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:20px">Seven weeks into 2026 and United have already sacked their manager, their co-owner has sparked a national political row, INEOS is fighting £18bn of its own debt - and yet on the pitch, Michael Carrick has quietly assembled the best run of results in two years.</p>
+    <div class="breaking-grid">
+      <div class="breaking-card green">
+        <div class="breaking-label">🟢 February 2026 - On The Pitch</div>
+        <div class="breaking-title">Carrick bounce - top of the 2026 form table</div>
+        <div class="breaking-body collapsed">Michael Carrick was appointed on 13 January 2026 after impressing as caretaker. He has since beaten Manchester City, Arsenal, Fulham and Tottenham in succession - United's first four-game winning run in two years. As of 23 February 2026 United sit 4th on 44 points and top the 2026 form table with 15 points from 7 games. Club officials are described as "quietly thrilled." Whether the ownership infrastructure can sustain it is another question entirely.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: Man Utd official · RTÉ · BBC Sport · February 2026</div>
+      </div>
+      <div class="breaking-card">
+        <div class="breaking-label">🔴 January 2026</div>
+        <div class="breaking-title">Amorim sacked after just 14 months</div>
+        <div class="breaking-body collapsed">Rúben Amorim was dismissed on 5 January 2026 after publicly stating he had arrived to be "the manager of Manchester United, not just the coach" - signalling frustration at INEOS interference in football decisions. The Athletic reported that Wilcox had expressed scepticism about Amorim's 3-4-3 system before hiring him. United must honour Amorim's buyout clause through 2027, adding further financial burden to a club carrying £749m net debt.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: BBC Sport · The Athletic · RTÉ · January 2026</div>
+      </div>
+      <div class="breaking-card">
+        <div class="breaking-label">🔴 February 2026 - Political Storm</div>
+        <div class="breaking-title">Ratcliffe "colonised by immigrants" - the full saga</div>
+        <div class="breaking-body collapsed">In a TV interview Ratcliffe claimed the UK had been "colonised by immigrants." Kick It Out called the comments "shameful and deeply divisive." The FA launched an investigation. Manchester United released a statement without naming their own co-owner. Ratcliffe issued a partial apology. The FA declined to charge him - Kick It Out said they were "disappointed." United's players received no direct communication from Ratcliffe.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: The Guardian · The Athletic · Sky Sports · Kick It Out · February 2026</div>
+      </div>
+      <div class="breaking-card">
+        <div class="breaking-label">🔴 December 2025 - Ongoing</div>
+        <div class="breaking-title">INEOS battling £18bn of its own corporate debt</div>
+        <div class="breaking-body collapsed">Ratcliffe's INEOS Group is reportedly struggling under £18bn of corporate debt caused by high energy costs, Trump trade tariffs and cheap Chinese industrial imports. Football Insider reported Ratcliffe may be forced to step back from Old Trafford to focus on the parent company. INEOS' financial distress directly threatens the promised regeneration of United.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: Football Insider · The Telegraph · December 2025</div>
+      </div>
+      <div class="breaking-card">
+        <div class="breaking-label">🟡 March 2025 - Ongoing</div>
+        <div class="breaking-title">New 100,000-seat stadium confirmed - timeline unclear</div>
+        <div class="breaking-body collapsed">United confirmed plans for a new 100,000-seat stadium next to the existing Old Trafford site, designed by Foster + Partners. The club says it could deliver £7.3bn in gross value added and 90,000 jobs. The full new stadium timeline remains contingent on planning permission, government support and INEOS' own financial position.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: Manchester United official · manutd.com · March 2025</div>
+      </div>
+      <div class="breaking-card">
+        <div class="breaking-label">🔴 Ongoing</div>
+        <div class="breaking-title">£666m revenue - yet still a £33m loss</div>
+        <div class="breaking-body collapsed">United posted a record £666.5m revenue in fiscal year 2025 - yet still recorded a £33m net loss. Broadcasting revenue fell £48.9m due to missing the Champions League. Ratcliffe warned United could have faced bankruptcy by Christmas without cost-cutting: 250 redundancies, cancelled corporate credit cards, player wage reduction requests.</div>
+        <button class="read-more-btn" onclick="toggleCard(this)">Read more</button>
+        <div class="breaking-date">Sources: Manchester United PLC FY2025 · The Guardian · September 2025</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOVERNANCE -->
+<div class="chapter" id="ch-governance">
+  <div class="wrap">
+    <div class="ch-num">Chapter 00 - The Structure</div>
+    <h2>The hybrid model that nobody will defend</h2>
+    <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:6px">Before the money, the results or the managers - the root cause is governance. Manchester United in 2026 operates under what the Corporate Governance Institute called a "hybrid experiment" creating an internal power struggle at every level of the organisation.</p>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <div class="gov-card-label">The Glazers - 48.9%</div>
+        <div class="gov-card-title">Still in control - still extracting</div>
+        <div class="gov-card-body">The Glazer family retain 48.9% and the largest single voting bloc. Despite stepping back from day-to-day operations they continue to receive dividends. A full sale - promised by Joel Glazer in 2022 - never materialised.</div>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-label">INEOS / Ratcliffe - 28.9%</div>
+        <div class="gov-card-title">Minority owner, majority headlines</div>
+        <div class="gov-card-body">Ratcliffe injected ~£240m to hold 28.9%. He controls day-to-day football operations but not the club outright. His own petrochemical company now carries £18bn of debt. He publicly promised Amorim "three years" and sacked him after 14 months.</div>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-label">Football Structure</div>
+        <div class="gov-card-title">CEO + DoF + Manager = conflict</div>
+        <div class="gov-card-body">CEO Omar Berrada, Director of Football Jason Wilcox and the manager are supposed to operate as a trident. Dan Ashworth was appointed sporting director, spent 5 months on gardening leave, joined United, and was dismissed after weeks.</div>
+      </div>
+      <div class="gov-card">
+        <div class="gov-card-label">The Core Problem</div>
+        <div class="gov-card-title">Two owners, zero alignment</div>
+        <div class="gov-card-body">The Corporate Governance Institute assessed United's hybrid model in January 2026: "It has created an internal power struggle at the leadership levels, which any corporate governance professional will tell you is an immediate red flag."</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Ratcliffe told staff United could have faced <b>bankruptcy by Christmas 2025</b> without his cost cuts - while simultaneously living in Monaco, paying no UK tax, and running a petrochemical company with £18bn in debt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BEFORE AND AFTER -->
+<div class="chapter" id="ch-ba">
+  <div class="wrap">
+    <div class="ch-num">The Ferguson Divide</div>
+    <h2>Before and after: the numbers tell the story</h2>
+    <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:20px">Ferguson's final 10 seasons (2003–2013) vs. the 13 seasons since. The contrast is stark across every metric that matters.</p>
+    <div class="ba-grid">
+      <div class="ba-col before">
+        <div class="ba-label">🔵 Ferguson era (2003–2013)</div>
+        <div class="ba-stat"><div class="ba-val">6</div><div class="ba-desc">Premier League titles in 10 seasons</div></div>
+        <div class="ba-stat"><div class="ba-val">2</div><div class="ba-desc">Champions League finals (won 1 in 2008)</div></div>
+        <div class="ba-stat"><div class="ba-val">76.4</div><div class="ba-desc">Average PL points per season</div></div>
+        <div class="ba-stat"><div class="ba-val">Top 3</div><div class="ba-desc">Finished outside top 3 only once</div></div>
+        <div class="ba-stat"><div class="ba-val">1</div><div class="ba-desc">Manager - one vision, one identity</div></div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">🔴 Post-Ferguson (2013–2026)</div>
+        <div class="ba-stat"><div class="ba-val">0</div><div class="ba-desc">Premier League titles in 13 seasons</div></div>
+        <div class="ba-stat"><div class="ba-val">0</div><div class="ba-desc">Champions League finals</div></div>
+        <div class="ba-stat"><div class="ba-val">63.5</div><div class="ba-desc">Average PL points per season</div></div>
+        <div class="ba-stat"><div class="ba-val">15th</div><div class="ba-desc">Lowest finish - 2024/25 season</div></div>
+        <div class="ba-stat"><div class="ba-val">10+</div><div class="ba-desc">Managers - constant resets, no identity</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH1: MONEY -->
+<div class="chapter" id="ch1">
+  <div class="wrap">
+    <div class="ch-inner">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 01 - The Money</div>
+        <h2>A buyout paid for by the club itself</h2>
+        <p>In 2005 the Glazer family acquired United via a <b>leveraged buyout</b> - borrowing the purchase price and placing the debt directly onto the club. United had been debt-free. Overnight they were servicing hundreds of millions in loans they did not create.</p>
+        <p>BBC Verify calculated approximately <b>£1.2bn</b> left the club in debt interest, repayments, dividends and fees - money that never reached a player, a training ground or the academy.</p>
+        <div class="callout">
+          <p><b>£815m</b> debt interest · <b>£197m</b> net debt repayments · <b>£166m</b> dividends · <b>£10m</b> management fees — <a href="https://www.bbc.com/sport/football/articles/cd9lwdegxvxo" target="_blank">BBC Verify, June 2025</a></p>
+        </div>
+        <p>By late 2025 net debt climbed to a <b>club-record £749m</b>. INEOS are themselves battling <b>£18bn in corporate debt</b>.</p>
+        <div class="debt-meter">
+          <div class="debt-label">United net club debt - 2025 club record</div>
+          <div class="debt-bar-wrap"><div class="debt-bar" id="debt-bar"></div></div>
+          <div class="debt-val">£749m</div>
+          <div class="debt-desc">Source: <a href="https://www.espn.com/soccer/story/_/id/47275844/man-united-net-debt-breaks-1bn-active-summer-window" target="_blank">ESPN, Dec 2025</a></div>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-cash"></div>
+        <div class="chart-fallback" id="fb-cash">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Glazer-era financial extraction (£m)</div>
+        <div class="chart-sub">BBC Verify verified breakdown - June 2025</div>
+        <div id="chart-cash" class="plotly-div"></div>
+        <div class="chart-src">Source: <a href="https://www.bbc.com/sport/football/articles/cd9lwdegxvxo" target="_blank">BBC Verify, June 2025</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH2: PITCH -->
+<div class="chapter" id="ch2">
+  <div class="wrap">
+    <div class="ch-inner flip">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 02 - The Pitch</div>
+        <h2>Ten managers. Zero league titles. No plan.</h2>
+        <p>When Ferguson retired in 2013 United had no succession plan. Every appointment since has been reactive, most ending mid-season. Amorim's sacking in January 2026 means United are now on their <b>tenth managerial regime in 13 years</b>.</p>
+        <div class="timeline">
+          <div class="t-item"><div class="t-yr">2013-14</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">David Moyes <span class="badge sacked">Sacked</span></div><div class="t-note">7th · Sacked April 2014 after 10 months</div></div></div>
+          <div class="t-item"><div class="t-yr">2014-16</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Louis van Gaal <span class="badge sacked">Sacked</span></div><div class="t-note">FA Cup win · Sacked the day after winning the cup</div></div></div>
+          <div class="t-item"><div class="t-yr">2016-18</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">José Mourinho <span class="badge sacked">Sacked</span></div><div class="t-note">EFL Cup + Europa League · Sacked Dec 2018</div></div></div>
+          <div class="t-item"><div class="t-yr">2018-21</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Ole Gunnar Solskjaer <span class="badge sacked">Sacked</span></div><div class="t-note">2nd place 2021 · Sacked Nov 2021 after 5-0 vs Liverpool</div></div></div>
+          <div class="t-item"><div class="t-yr">Nov-Dec 2021</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Michael Carrick <span class="badge ok">Caretaker</span></div><div class="t-note">3 games unbeaten · stood aside for Rangnick</div></div></div>
+          <div class="t-item"><div class="t-yr">2021-22</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Ralf Rangnick <span class="badge ok">Interim</span></div><div class="t-note">6 months · 6th · Called for full rebuild</div></div></div>
+          <div class="t-item"><div class="t-yr">2022-24</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Erik ten Hag <span class="badge sacked">Sacked</span></div><div class="t-note">FA Cup 2024 · Contract extended then sacked Oct 2024</div></div></div>
+          <div class="t-item"><div class="t-yr">2024-Jan 2026</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Rúben Amorim <span class="badge sacked">Sacked</span></div><div class="t-note">Promised 3 years · Sacked 5 Jan 2026</div></div></div>
+          <div class="t-item"><div class="t-yr">Jan 2026–now</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Michael Carrick <span class="badge current">Current</span></div><div class="t-note">Beat City, Arsenal, Fulham, Spurs · 4th · Top 2026 form table</div></div></div>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-pts"></div>
+        <div class="chart-fallback" id="fb-pts">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Premier League Points per Season (2013/14–2024/25)</div>
+        <div class="chart-sub">Tap any point for manager and finishing position</div>
+        <div id="chart-pts" class="plotly-div"></div>
+        <div class="chart-src">Source: StatMuse / Premier League records</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH3: TROPHIES -->
+<div class="chapter" id="ch3">
+  <div class="wrap">
+    <div class="ch-inner">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 03 - The Trophies</div>
+        <h2>From serial winners to a decade of drought</h2>
+        <p>Under Ferguson United won <b>13 Premier League titles</b>, <b>2 Champions Leagues</b> and <b>5 FA Cups</b>. Since 2013 - no league title, no Champions League in over 12 years.</p>
+        <div class="trophy-grid">
+          <div class="trophy"><div class="trophy-icon">🏆</div><div class="trophy-name">FA Cup</div><div class="trophy-yr">2024</div></div>
+          <div class="trophy"><div class="trophy-icon">🏆</div><div class="trophy-name">EFL Cup</div><div class="trophy-yr">2023</div></div>
+          <div class="trophy"><div class="trophy-icon">🏆</div><div class="trophy-name">FA Cup</div><div class="trophy-yr">2016</div></div>
+          <div class="trophy"><div class="trophy-icon">🏆</div><div class="trophy-name">EFL Cup</div><div class="trophy-yr">2017</div></div>
+          <div class="trophy"><div class="trophy-icon">🏆</div><div class="trophy-name">Europa League</div><div class="trophy-yr">2017</div></div>
+          <div class="trophy drought"><div class="trophy-icon">🏆</div><div class="trophy-name">Premier League</div><div class="trophy-yr">Last won 2013</div></div>
+          <div class="trophy drought"><div class="trophy-icon">🏆</div><div class="trophy-name">Champions League</div><div class="trophy-yr">Last won 2008</div></div>
+        </div>
+        <div class="callout"><p>Faded = active drought. Last league title: <b>2013</b>. Last Champions League: <b>2008</b>.</p></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-cl"></div>
+        <div class="chart-fallback" id="fb-cl">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Champions League exit round by season</div>
+        <div class="chart-sub">Seasons United qualified · Gold = deepest run</div>
+        <div id="chart-cl" class="plotly-div"></div>
+        <div class="chart-src">Source: UEFA / Wikipedia</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH4: TRANSFERS -->
+<div class="chapter" id="ch4">
+  <div class="wrap">
+    <div class="ch-inner flip">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 04 - The Transfers</div>
+        <h2>Billions spent, minimal return</h2>
+        <p>Since Ferguson's retirement United have spent well over <b>£1.5bn on transfer fees</b> - yet the squad has never cohered around a single philosophy. Every manager bought for their own system; every successor inherited a mismatched squad they did not want.</p>
+        <p>Maguire at <b>£80m</b>, Antony at <b>£86m</b>, Pogba at <b>£89m</b> — hundreds of millions written off or sold at a fraction of their cost.</p>
+        <div class="callout"><p>United's net transfer spend over 5 years to 2026 was among the highest in world football - yet they finished 15th in 2024/25 and sacked the manager in January 2026.</p></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-spend"></div>
+        <div class="chart-fallback" id="fb-spend">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Estimated gross transfer spend by season (£m)</div>
+        <div class="chart-sub">Gross outlay · does not account for sales · approximate</div>
+        <div id="chart-spend" class="plotly-div"></div>
+        <div class="chart-src">Source: Transfermarkt / Football365 (approx)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSFER GRAVEYARD -->
+<div class="chapter" id="ch-graveyard">
+  <div class="wrap">
+    <div class="ch-num">Chapter 04b - The Transfer Graveyard</div>
+    <h2>⚰️ The Graveyard: eight signings that broke the bank</h2>
+    <p class="graveyard-intro">Over £650m spent on these eight players alone. Some are still at the club on wages United cannot afford. Most were signed for managers who left within 18 months. All represent the broken transfer strategy that defined the post-Ferguson era.</p>
+    <div class="graveyard-scroll">
+
+      <div class="grave-card">
+        <div class="grave-emoji">😤</div>
+        <div class="grave-name">Paul Pogba</div>
+        <div class="grave-pos">Central Midfielder · France</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£89m</div><div class="grave-stat-lbl">Fee paid 2016</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">£0</div><div class="grave-stat-lbl">Sold for (2022)</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">5 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val gold">1</div><div class="grave-stat-lbl">Europa League</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Van Gaal / Mourinho</b> era</div>
+        <div class="grave-verdict disaster">Left for free. World record fee. One trophy. Three managers. Constant injury and drama. The definitive post-Ferguson signing.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">🏚️</div>
+        <div class="grave-name">Harry Maguire</div>
+        <div class="grave-pos">Centre-Back · England</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£80m</div><div class="grave-stat-lbl">Fee paid 2019</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">~£30m</div><div class="grave-stat-lbl">Est. current value</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">5 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val gold">1</div><div class="grave-stat-lbl">FA Cup (2024)</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Ole Gunnar Solskjaer</b></div>
+        <div class="grave-verdict disaster">World record for a defender. Captain stripped by Ten Hag. Still on the books in 2026. A £50m+ write-down on one centre-back.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">💨</div>
+        <div class="grave-name">Antony</div>
+        <div class="grave-pos">Right Winger · Brazil</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£86m</div><div class="grave-stat-lbl">Fee paid 2022</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">~£20m</div><div class="grave-stat-lbl">Est. current value</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">3 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">12</div><div class="grave-stat-lbl">Career PL goals</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Erik ten Hag</b></div>
+        <div class="grave-verdict disaster">£86m. 12 PL goals in 3 seasons. Loaned to Real Betis in Jan 2025. A catastrophic valuation built on an Ajax relationship, not performance data.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">🌪️</div>
+        <div class="grave-name">Ángel Di María</div>
+        <div class="grave-pos">Winger / AM · Argentina</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£59.7m</div><div class="grave-stat-lbl">Fee paid 2014</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">£44.3m</div><div class="grave-stat-lbl">Sold for (2015)</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">1 yr</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">3</div><div class="grave-stat-lbl">PL goals</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Louis van Gaal</b></div>
+        <div class="grave-verdict disaster">Sold at a £15m loss after one season. Later won the World Cup with Argentina. United's recruitment and environment drove him out inside 12 months.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">🤦</div>
+        <div class="grave-name">Donny van de Beek</div>
+        <div class="grave-pos">Central Midfielder · Netherlands</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£35m</div><div class="grave-stat-lbl">Fee paid 2020</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">~£5m</div><div class="grave-stat-lbl">Sold for (2024)</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">4 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">2</div><div class="grave-stat-lbl">PL goals</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Ole Gunnar Solskjaer</b></div>
+        <div class="grave-verdict disaster">Solskjaer never had a plan for him. Neither did Rangnick, Ten Hag or Amorim. Sold for £5m after four years of wasted wages. A £30m loss before wages.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">😔</div>
+        <div class="grave-name">Alexis Sánchez</div>
+        <div class="grave-pos">Forward · Chile</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£0</div><div class="grave-stat-lbl">Fee (swap deal)</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">~£400k/wk</div><div class="grave-stat-lbl">Peak wages</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">18 mths</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">5</div><div class="grave-stat-lbl">PL goals</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>José Mourinho</b></div>
+        <div class="grave-verdict disaster">Free transfer but ~£400k/week wages. Five PL goals. Released to Inter Milan. Cost United an estimated £30–40m in wages for near-zero return.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">👻</div>
+        <div class="grave-name">Jadon Sancho</div>
+        <div class="grave-pos">Winger · England</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£73m</div><div class="grave-stat-lbl">Fee paid 2021</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">~£40m</div><div class="grave-stat-lbl">Est. current value</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">3 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val gold">12</div><div class="grave-stat-lbl">PL goals total</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Ole Gunnar Solskjaer</b></div>
+        <div class="grave-verdict mixed">Publicly fell out with Ten Hag over training standards. Loaned to Dortmund where he was excellent. Returned to United still unable to cement a place. A case of environment failure as much as player failure.</div>
+      </div>
+
+      <div class="grave-card">
+        <div class="grave-emoji">❓</div>
+        <div class="grave-name">Memphis Depay</div>
+        <div class="grave-pos">Forward · Netherlands</div>
+        <div class="grave-stats">
+          <div class="grave-stat"><div class="grave-stat-val red">£25m</div><div class="grave-stat-lbl">Fee paid 2015</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">£16m</div><div class="grave-stat-lbl">Sold for (2017)</div></div>
+          <div class="grave-stat"><div class="grave-stat-val muted">2 yrs</div><div class="grave-stat-lbl">At the club</div></div>
+          <div class="grave-stat"><div class="grave-stat-val red">2</div><div class="grave-stat-lbl">PL goals</div></div>
+        </div>
+        <div class="grave-who">Signed by <b>Louis van Gaal</b></div>
+        <div class="grave-verdict disaster">Two PL goals in two seasons. Later became one of Europe's best strikers at Lyon and Barcelona. A player United misused and discarded for £9m less than they paid.</div>
+      </div>
+
+    </div>
+
+    <div class="graveyard-total">
+      <div>
+        <div class="graveyard-total-val">~£650m+</div>
+        <div class="graveyard-total-lbl">Combined fees paid for these eight players alone · fees exclude wages · all figures approximate</div>
+      </div>
+      <div style="border-left:1px solid rgba(255,255,255,.1);padding-left:16px">
+        <div class="graveyard-total-val" style="color:var(--gold)">2</div>
+        <div class="graveyard-total-lbl">Managers who signed the majority of these players still at the club when they left · Mourinho, Solskjaer</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH5: BRAND -->
+<div class="chapter" id="ch5">
+  <div class="wrap">
+    <div class="ch-inner">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 05 - The Brand</div>
+        <h2>Revenue giant, results dwarf</h2>
+        <p>Deloitte's Football Money League 2026 placed United <b>8th</b> with <b>€793m</b> revenue - their lowest ever rank - with a <b>€52m drop in broadcast revenue</b> directly tied to on-pitch results.</p>
+        <div class="callout"><p>Real Madrid topped the 2026 Money League at <b>€1,045m</b>. United signed a <b>£900m Adidas kit deal</b> in 2023 - then finished 15th the following season. Source: <a href="https://www.deloitte.com/uk/en/services/consulting-financial/analysis/deloitte-football-money-league.html" target="_blank">Deloitte, Jan 2026</a></p></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-rev"></div>
+        <div class="chart-fallback" id="fb-rev">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Deloitte Money League 2026 - Top 8 Revenue (€m)</div>
+        <div class="chart-sub">United highlighted in red · others approximate</div>
+        <div id="chart-rev" class="plotly-div"></div>
+        <div class="chart-src">Source: <a href="https://www.deloitte.com/uk/en/services/consulting-financial/analysis/deloitte-football-money-league.html" target="_blank">Deloitte Football Money League 2026</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WAGES -->
+<div class="chapter" id="ch-wage">
+  <div class="wrap">
+    <div class="ch-inner flip">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 06 - The Wages</div>
+        <h2>Top-3 wage bill, bottom-half results</h2>
+        <p>United have consistently maintained one of the <b>highest wage bills in the Premier League</b> - estimated at <b>£230–260m per year</b> in recent seasons. Yet in 2024/25 they paid elite wages while finishing <b>15th</b>.</p>
+        <div class="callout"><p>United's wage rank and league position diverged dramatically from 2021 onward - a textbook sign of structural mismanagement and broken recruitment strategy.</p></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-wage"></div>
+        <div class="chart-fallback" id="fb-wage">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">Wage bill (£m/yr) vs. PL finish</div>
+        <div class="chart-sub">Blue bars = wage bill · Red line = league finish (lower is better)</div>
+        <div id="chart-wage" class="plotly-div"></div>
+        <div class="chart-src">Source: Sportysalaries / Capology / GiveMeSport (approx)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAN REVOLT -->
+<div class="chapter" id="ch-sentiment">
+  <div class="wrap">
+    <div class="ch-num">Chapter 07 - The Fans</div>
+    <h2>From protests to pitch invasions</h2>
+    <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:28px">Two decades of protests, walkouts, pitch invasions and a co-owner who sparked a national political storm in February 2026.</p>
+    <div class="event-timeline">
+      <div class="event-item"><div class="event-left"><div class="event-yr">2005</div><div class="event-dot anger"></div></div><div class="event-card anger"><div class="event-tag anger-tag">ANGER</div><div class="event-title">Glazer takeover - debt placed on the club</div><div class="event-body">Thousands boycotted the first home game. Green and gold scarves began appearing in protest against a leveraged buyout that left United carrying hundreds of millions in debt they did not incur.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2008</div><div class="event-dot positive"></div></div><div class="event-card positive"><div class="event-tag positive-tag">OPTIMISM</div><div class="event-title">Champions League winners in Moscow</div><div class="event-body">United beat Chelsea on penalties. Ferguson's side at their absolute peak. The results made the ownership bearable.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2010</div><div class="event-dot anger"></div></div><div class="event-card anger"><div class="event-tag anger-tag">PROTEST</div><div class="event-title">Green and Gold movement goes mainstream</div><div class="event-body">The "Love United, Hate Glazer" campaign reached its peak. A Red Knights buyout attempt ultimately failed, leaving fans with no exit route.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2013</div><div class="event-dot neutral"></div></div><div class="event-card neutral"><div class="event-tag neutral-tag">TURNING POINT</div><div class="event-title">Ferguson retires - the cover is blown</div><div class="event-body">Ferguson's retirement ended 26 years and 13 titles. Without his results masking the dysfunction, the structural problems became impossible to ignore.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2021</div><div class="event-dot revolt"></div></div><div class="event-card revolt"><div class="event-tag revolt-tag">🔥 FULL REVOLT</div><div class="event-title">Old Trafford pitch invasion - fans storm the ground</div><div class="event-body">2 May 2021: fans blockaded the Lowry Hotel. Hundreds broke into Old Trafford forcing postponement of the Manchester derby. Days later the European Super League collapsed within 48 hours under fan pressure.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2022</div><div class="event-dot neutral"></div></div><div class="event-card neutral"><div class="event-tag neutral-tag">CAUTIOUS HOPE</div><div class="event-title">Glazers announce they are open to selling</div><div class="event-body">November 2022: the Glazers explore "strategic alternatives." Ultimately only a 27.7% minority stake changed hands. The Glazers still hold 48.9% in 2026.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">2024</div><div class="event-dot positive"></div></div><div class="event-card positive"><div class="event-tag positive-tag">BRIEF LIFT</div><div class="event-title">FA Cup win - United beat Man City at Wembley</div><div class="event-body">Ten Hag's United beat City 2-1. Fan mood lifted briefly - then collapsed as United finished 8th and Ten Hag was sacked in October 2024.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">Feb 2026</div><div class="event-dot revolt"></div></div><div class="event-card revolt"><div class="event-tag revolt-tag">🔥 POLITICAL STORM</div><div class="event-title">Ratcliffe "colonised by immigrants" - national fallout</div><div class="event-body">Co-owner Ratcliffe claimed the UK had been "colonised by immigrants." Kick It Out called the comments "shameful." The FA investigated but declined to charge him.</div></div></div>
+      <div class="event-item"><div class="event-left"><div class="event-yr">Feb 2026</div><div class="event-dot neutral"></div></div><div class="event-card neutral"><div class="event-tag neutral-tag">UNEASY OPTIMISM</div><div class="event-title">Carrick bounce - top of the 2026 form table</div><div class="event-body">Wins over City, Arsenal, Fulham and Spurs. United sit 4th on 44 points. Fan mood has cautiously lifted. But the ownership crisis, record debt and INEOS' financial distress remain entirely unresolved.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGEMENT THEORY -->
+<div class="chapter" id="ch-theory">
+  <div class="wrap">
+    <div class="ch-num">Chapter 08 - Management Theory</div>
+    <h2>Five frameworks that explain the collapse</h2>
+    <p class="theory-intro">Manchester United's dysfunction is not just a football story - it is a textbook case study in modern management failure. Five theoretical lenses, one consistent finding: this is a structurally broken organisation.</p>
+    <div class="theory-grid">
+      <div class="theory-card agency">
+        <div class="theory-label">Agency Theory - Jensen &amp; Meckling, 1976</div>
+        <div class="theory-title">The owners are not acting in the club's interests</div>
+        <div class="theory-body">Agency Theory holds that a conflict exists between the principal (owner) and agent (operator) because each pursues their own self-interest. The Glazers extracted approximately £1.2bn via debt interest, dividends and fees. Classic principal-agent misalignment: reward flows upward regardless of performance.</div>
+        <div class="theory-verdict">Verdict: Textbook principal-agent failure. The incentive structure actively punished on-pitch investment.</div>
+      </div>
+      <div class="theory-card stakeholder">
+        <div class="theory-label">Stakeholder Theory - Freeman, 1984</div>
+        <div class="theory-title">Fans, players and staff treated as secondary</div>
+        <div class="theory-body">Freeman argues sustainable organisations must balance all stakeholders. United's ownership systematically inverted this. Shareholders extracted £1.2bn. Fans paid rising prices watching deteriorating football. Staff were made redundant while Ratcliffe lived in Monaco to avoid UK tax.</div>
+        <div class="theory-verdict">Verdict: Total stakeholder neglect. Financial extraction prioritised over every other stakeholder claim.</div>
+      </div>
+      <div class="theory-card culture">
+        <div class="theory-label">Organisational Culture - Schein, 1985</div>
+        <div class="theory-title">Ferguson built a winning culture - dismantled in under two years</div>
+        <div class="theory-body">Schein identifies culture at three levels: artefacts, espoused values and underlying assumptions. Ferguson's 26-year tenure built culture at all three simultaneously. Ten managers in 13 years means no new culture ever had time to form. Each new manager arrived to find a squad shaped by a different culture, then left before their own could take root.</div>
+        <div class="theory-verdict">Verdict: Cultural capital accumulated over 26 years destroyed in under 24 months. Never rebuilt.</div>
+      </div>
+      <div class="theory-card shortterm">
+        <div class="theory-label">Short-Termism - Laverty, 1996</div>
+        <div class="theory-title">Every decision optimised for the next 18 months</div>
+        <div class="theory-body">Short-termism is the systematic prioritisation of short-run outcomes over long-run value creation. Managers hired reactively and sacked before their projects matured. INEOS promised Amorim three years and terminated at 14 months. There is no evidence of a plan with a horizon beyond 18 months at any point since 2013.</div>
+        <div class="theory-verdict">Verdict: Chronic short-termism at every level. No decision-maker has operated with a credible long-term plan.</div>
+      </div>
+      <div class="theory-card contingency">
+        <div class="theory-label">Contingency Theory - Lawrence &amp; Lorsch, 1967</div>
+        <div class="theory-title">The structure does not match the environment</div>
+        <div class="theory-body">Contingency Theory holds that the optimal structure depends on the environment. The modern Premier League demands fast, integrated decision-making. United's structure delivers the opposite: two owners with divergent interests, a DoF who doubted the manager before hiring him, and a CEO caught between them.</div>
+        <div class="theory-verdict">Verdict: Structure-environment mismatch. The governance model is incompatible with competing at the top of the modern Premier League.</div>
+      </div>
+    </div>
+    <div class="theory-conclusion">
+      <h3>What the frameworks agree on</h3>
+      <p>Five different theoretical lenses, one consistent finding: Manchester United's problems are <b>structural and systemic</b>, not tactical or personnel-based. Changing the manager does not fix an agency problem. Hiring a better DoF does not resolve a principal-agent conflict between two owners.</p>
+      <p>The solution requires unified ownership with aligned incentives, a governance structure matched to the competitive environment, a long-term planning horizon, and genuine stakeholder accountability. Under the current dual-ownership model, none of these conditions are met.</p>
+      <p>Carrick's results since January 2026 are genuine and encouraging. But they are happening inside a structure that every major management framework identifies as fundamentally broken. The results paper over the cracks. They do not fill them.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ANALYSIS -->
+<div class="chapter" id="ch6">
+  <div class="wrap">
+    <div class="ch-inner flip">
+      <div class="ch-text">
+        <div class="ch-num">Chapter 09 - Analysis</div>
+        <h2>INEOS are repeating the same mistakes</h2>
+        <div class="opinion">
+          <div class="op-label">⚠ Analysis and opinion - not verified fact</div>
+          <p>The most damning thing about United in early 2026 is not that the Glazers failed - it is that INEOS, brought in to fix the problem, are making structurally identical errors. Ratcliffe publicly promised Amorim "three years." He was sacked after 14 months. The Athletic reported that Director of Football Jason Wilcox had doubts about Amorim's system before INEOS chose to hire him.</p>
+          <p>The "hybrid model" - Ratcliffe controlling football operations while the Glazers retain 48.9% - has not produced clarity. It has produced a power vacuum. Dan Ashworth was appointed sporting           director, spent five months on gardening leave from Newcastle, arrived at Old Trafford, and was dismissed within weeks. Nobody at United can explain with confidence who makes the final call on anything.</p>
+          <p>Michael Carrick's early results offer genuine hope. But they are happening in spite of the ownership structure, not because of it. The pattern - overpromise, under-deliver, blame the manager, reset - has not changed under INEOS. Only the names have.</p>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-skeleton" id="sk-gap"></div>
+        <div class="chart-fallback" id="fb-gap">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
+        <div class="chart-title-bar">PL finish vs. Money League rank</div>
+        <div class="chart-sub">As results drop, commercial rank follows. Lower = better.</div>
+        <div id="chart-gap" class="plotly-div"></div>
+        <div class="chart-src">Source: StatMuse · Deloitte Football Money League</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="sources">
+  <div class="wrap">
+    <h3>Sources</h3>
+    <ul>
+      <li>BBC Verify - <a href="https://www.bbc.com/sport/football/articles/cd9lwdegxvxo" target="_blank">"How the Glazer family cost Manchester United £1.2bn"</a> · June 2025</li>
+      <li>Deloitte - <a href="https://www.deloitte.com/uk/en/services/consulting-financial/analysis/deloitte-football-money-league.html" target="_blank">Football Money League 2026</a> · January 2026</li>
+      <li>ESPN - <a href="https://www.espn.com/soccer/story/_/id/47275844/man-united-net-debt-breaks-1bn-active-summer-window" target="_blank">"Man United net debt breaks $1bn"</a> · December 2025</li>
+      <li>ESPN - <a href="https://www.espn.com/soccer/story/_/id/41852463/manchester-united-ineos-mess-players-flights-staff-cuts-ferguson-old-trafford" target="_blank">"Why Manchester United are still a mess under INEOS"</a> · October 2024</li>
+      <li>The Athletic / NYT - <a href="https://www.nytimes.com/athletic/6594285/2026/01/05/ruben-amorim-sacked-manchester-united/" target="_blank">"Manchester United sack Rúben Amorim"</a> · January 2026</li>
+      <li>The Athletic / NYT - <a href="https://www.nytimes.com/athletic/6943026/2026/01/06/ratcliffe-ineos-amorim-manchester-united-sack/" target="_blank">"Ratcliffe must own INEOS' error with Amorim"</a> · January 2026</li>
+      <li>BBC Sport - <a href="https://www.bbc.com/sport/football/articles/cvg48wdmx24o" target="_blank">"Amorim sacked after 14 months"</a> · January 2026</li>
+      <li>The Guardian - <a href="https://www.theguardian.com/football/2026/feb/12/fa-jim-ratcliffe-football-rules-immigrants-manchester-united" target="_blank">"FA to look at whether Ratcliffe broke football rules"</a> · February 2026</li>
+      <li>Sky Sports - <a href="https://www.skysports.com/football/news/11667/13510069/sir-jim-ratcliffe-man-utd-co-owner-will-face-no-action-from-the-fa" target="_blank">"Ratcliffe faces no action from FA"</a> · February 2026</li>
+      <li>Football Insider - <a href="https://www.footballinsider247.com/exclusive-sir-jim-ratcliffe-could-step-back-at-man-united-after-ineos-crisis/" target="_blank">"Ratcliffe could step back after INEOS crisis"</a> · December 2025</li>
+      <li>Manchester United official - <a href="https://www.manutd.com/en/news/detail/statement-man-utd-confirms-ambition-to-build-a-new-stadium-at-old-trafford" target="_blank">New 100,000-seat stadium confirmed</a> · March 2025</li>
+      <li>The Guardian - <a href="https://www.theguardian.com/football/2025/sep/17/manchester-united-hit-666m-record-revenue-but-lose-33m-amid-turmoil" target="_blank">"United hit £666m record revenue but lose £33m"</a> · September 2025</li>
+      <li>Corporate Governance Institute - <a href="https://www.thecorporategovernanceinstitute.com/insights/news-analysis/the-governance-issues-at-manchester-united/" target="_blank">"The governance issues at Manchester United"</a> · January 2026</li>
+      <li>Manchester United official - <a href="https://www.manutd.com/en/news/detail/man-utd-top-of-premier-league-form-table-in-2026" target="_blank">"United top of PL form table in 2026"</a> · February 2026</li>
+      <li>RTÉ Sport - <a href="https://www.rte.ie/sport/soccer/2026/0207/1557272-carrick-man-united-in-good-emotional-place/" target="_blank">"Carrick: United in good emotional place"</a> · February 2026</li>
+      <li>StatMuse - <a href="https://www.statmuse.com/fc/ask/manchester-united-points-scored-last-10-seasons?l=pl" target="_blank">Manchester United PL points by season</a></li>
+      <li>Transfermarkt - Transfer fee records · public</li>
+      <li>Jensen, M.C. &amp; Meckling, W.H. (1976) - Theory of the Firm · Journal of Financial Economics</li>
+      <li>Freeman, R.E. (1984) - Strategic Management: A Stakeholder Approach · Pitman Publishing</li>
+      <li>Schein, E.H. (1985) - Organizational Culture and Leadership · Jossey-Bass</li>
+      <li>Laverty, K.J. (1996) - Economic "Short-Termism" · Academy of Management Review</li>
+      <li>Lawrence, P.R. &amp; Lorsch, J.W. (1967) - Organization and Environment · Harvard Business School Press</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <span>Data story · Charts: Plotly.js</span> ·
+    <span>Last updated 23 February 2026</span> ·
+    <span>All facts cited</span> ·
+    <span>Opinion sections clearly labelled</span>
+  </p>
+</footer>
+
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"
+  onerror="document.querySelectorAll('.chart-skeleton').forEach(s=>s.classList.add('hidden'));document.querySelectorAll('.chart-fallback').forEach(f=>f.classList.add('show'));"></script>
+<script>
+/* Guard: if Plotly didn't load at all, stop here */
+if(typeof Plotly==="undefined"){
+  console.warn("Plotly failed to load - charts disabled");
+}else{
+
+const B={paper_bgcolor:"rgba(0,0,0,0)",plot_bgcolor:"rgba(0,0,0,0)",font:{color:"#e8eef6",family:"system-ui,-apple-system,'Segoe UI',sans-serif",size:12}};
+const C={responsive:true,displayModeBar:false,scrollZoom:false,modeBarButtonsToRemove:["zoom2d","pan2d","select2d","lasso2d","zoomIn2d","zoomOut2d","autoScale2d","resetScale2d"],toImageButtonOptions:{}};
+
+function hideSkeleton(id){
+  const sk=document.getElementById(id);
+  if(sk)sk.classList.add("hidden");
+}
+function chartError(plotlyId,skeletonId,fallbackId){
+  hideSkeleton(skeletonId);
+  const fb=document.getElementById(fallbackId);
+  if(fb)fb.classList.add("show");
+  const el=document.getElementById(plotlyId);
+  if(el)el.style.display="none";
+}
+
+/* READ MORE TOGGLE */
+function toggleCard(btn){
+  const body=btn.previousElementSibling;
+  const collapsed=body.classList.toggle("collapsed");
+  btn.textContent=collapsed?"Read more":"Read less";
+}
+
+const CHARTS={
+  "chart-cash":()=>Plotly.newPlot("chart-cash",[{
+    type:"bar",orientation:"h",
+    x:[815,197,166,10],
+    y:["Debt interest &<br>repayments","Net external<br>debt repayments","Glazer<br>dividends","Management<br>fees"],
+    marker:{color:["#da291c","#b52218","#922016","#6b1309"]},
+    text:["£815m","£197m","£166m","£10m"],textposition:"outside",
+    hovertemplate:"%{y}: <b>£%{x}m</b><extra></extra>"
+  }],{...B,margin:{l:170,r:80,t:16,b:40},
+    xaxis:{title:"£ million",gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5",range:[0,960]},
+    yaxis:{color:"#e8eef6",tickfont:{size:11}}
+  },C).then(()=>hideSkeleton("sk-cash"))
+    .catch(()=>chartError("chart-cash","sk-cash","fb-cash")),
+
+  "chart-pts":()=>{
+    const ss=["2013/14","2014/15","2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24","2024/25"];
+    const pp=[64,70,66,69,81,66,66,74,58,75,60,42];
+    const ff=["7th","4th","5th","6th","2nd","6th","3rd","2nd","6th","3rd","8th","15th"];
+    const mm=["Moyes","Van Gaal","Van Gaal","Mourinho","Mourinho","Mourinho/Solskjaer","Solskjaer","Solskjaer","Solskjaer/Rangnick","Ten Hag","Ten Hag","Ten Hag/Amorim"];
+    Plotly.newPlot("chart-pts",[{
+      type:"scatter",mode:"lines+markers",x:ss,y:pp,
+      customdata:ss.map((_,i)=>[mm[i],ff[i]]),
+      hovertemplate:"<b>%{x}</b><br>Manager: %{customdata[0]}<br>Points: <b>%{y}</b><br>Finished: %{customdata[1]}<extra></extra>",
+      line:{color:"#da291c",width:3},
+      marker:{color:pp.map(p=>p<=42?"#ff8a80":p<=60?"#f05545":"#da291c"),size:pp.map(p=>p<=42?14:p<=60?10:8),line:{color:"rgba(0,0,0,.3)",width:1}},
+      fill:"tozeroy",fillcolor:"rgba(218,41,28,.06)"
+    }],{...B,margin:{l:50,r:20,t:20,b:70},
+      xaxis:{tickangle:-40,gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",tickfont:{size:10}},
+      yaxis:{title:"Points",range:[24,92],gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5"},
+      annotations:[
+        {x:"2024/25",y:42,text:"42 pts - worst ever",showarrow:true,arrowcolor:"#da291c",arrowhead:2,ax:0,ay:-46,font:{size:11,color:"#f87171"},bgcolor:"rgba(8,11,14,.9)",borderpad:4},
+        {x:"2017/18",y:81,text:"81 pts - best since Ferguson",showarrow:true,arrowcolor:"#8ab4ff",arrowhead:2,ax:0,ay:44,font:{size:11,color:"#8ab4ff"},bgcolor:"rgba(8,11,14,.9)",borderpad:4}
+      ]
+    },C).then(()=>hideSkeleton("sk-pts"))
+      .catch(()=>chartError("chart-pts","sk-pts","fb-pts"));
+  },
+
+  "chart-cl":()=>Plotly.newPlot("chart-cl",[{
+    type:"bar",
+    x:["2013/14","2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24"],
+    y:[1,1,2,2,1,2,4,1,3,3],
+    text:["Group Stage","Group Stage","Rd of 16","Rd of 16","Group Stage","Rd of 16","Semi-Final","Group Stage","Quarter-Final","Quarter-Final"],
+    textposition:"outside",
+    marker:{color:[1,1,2,2,1,2,4,1,3,3].map(r=>r>=4?"#ffc843":r>=3?"#8ab4ff":r>=2?"#da291c":"#6b1309"),line:{color:"rgba(0,0,0,.2)",width:1}},
+    hovertemplate:"<b>%{x}</b><br>Exit: %{text}<extra></extra>"
+  }],{...B,margin:{l:50,r:20,t:20,b:70},
+    xaxis:{tickangle:-35,gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",tickfont:{size:10}},
+    yaxis:{title:"Round reached",tickvals:[1,2,3,4],ticktext:["Group","R16","QF","SF"],gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5",range:[0,5.5]},
+    annotations:[{x:0.5,y:5.1,xref:"paper",yref:"y",text:"Did not qualify: 2014/15 · 2024/25",showarrow:false,font:{size:10,color:"#8a95a5"}}]
+  },C).then(()=>hideSkeleton("sk-cl"))
+    .catch(()=>chartError("chart-cl","sk-cl","fb-cl")),
+
+  "chart-spend":()=>Plotly.newPlot("chart-spend",[{
+    type:"bar",
+    x:["2013/14","2014/15","2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24","2024/25"],
+    y:[37,165,77,150,152,80,80,75,135,225,200,120],
+    customdata:["Moyes","Van Gaal","Van Gaal","Mourinho","Mourinho","Mourinho/Solskjaer","Solskjaer","Solskjaer","Solskjaer/Rangnick","Ten Hag","Ten Hag","Amorim"],
+    text:[37,165,77,150,152,80,80,75,135,225,200,120].map(v=>"£"+v+"m"),
+    textposition:"outside",
+    marker:{color:"#da291c",opacity:[37,165,77,150,152,80,80,75,135,225,200,120].map(v=>0.4+v/450),line:{color:"rgba(0,0,0,.2)",width:1}},
+    hovertemplate:"<b>%{x}</b><br>Manager: %{customdata}<br>Spend: <b>£%{y}m</b> (approx)<extra></extra>"
+  }],{...B,margin:{l:50,r:20,t:14,b:70},
+    xaxis:{tickangle:-40,gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",tickfont:{size:10}},
+    yaxis:{title:"£m gross (approx)",gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5",range:[0,280]},
+    annotations:[{x:"2022/23",y:225,text:"£225m peak spend",showarrow:true,arrowcolor:"#da291c",arrowhead:2,ax:0,ay:-40,font:{size:11,color:"#f87171"},bgcolor:"rgba(8,11,14,.9)",borderpad:4}]
+  },C).then(()=>hideSkeleton("sk-spend"))
+    .catch(()=>chartError("chart-spend","sk-spend","fb-spend")),
+
+  "chart-rev":()=>Plotly.newPlot("chart-rev",[{
+    type:"bar",
+    x:["Real Madrid","Barcelona","Liverpool","Man City","Arsenal","Bayern Munich","PSG","Man United"],
+    y:[1045,915,905,868,842,830,802,793],
+    text:["~€1045m","~€915m","~€905m","~€868m","~€842m","~€830m","~€802m","€793m"],
+    textposition:"outside",
+    marker:{color:["rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","#da291c"],line:{color:"rgba(0,0,0,.2)",width:1}},
+    hovertemplate:"%{x}: €%{y}m<extra></extra>"
+  }],{...B,margin:{l:50,r:20,t:14,b:80},
+    xaxis:{tickangle:-35,gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",tickfont:{size:10}},
+    yaxis:{title:"Revenue €m",gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5",range:[0,1250]},
+    annotations:[{x:7.3,y:1080,text:"Deloitte Jan 2026 · others approx",showarrow:false,font:{size:10,color:"#8a95a5"},bgcolor:"rgba(8,11,14,.7)",borderpad:4}]
+  },C).then(()=>hideSkeleton("sk-rev"))
+    .catch(()=>chartError("chart-rev","sk-rev","fb-rev")),
+
+  "chart-wage":()=>Plotly.newPlot("chart-wage",[
+    {type:"bar",name:"Wage bill (£m/yr, approx)",
+      x:["2014/15","2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24","2024/25"],
+      y:[180,190,200,215,220,210,215,220,235,250,255],
+      marker:{color:"rgba(138,180,255,.4)",line:{color:"rgba(138,180,255,.6)",width:1}},
+      yaxis:"y1",hovertemplate:"<b>%{x}</b><br>Wage bill: ~£%{y}m<extra></extra>"},
+    {type:"scatter",mode:"lines+markers",name:"PL finish (right axis)",
+      x:["2014/15","2015/16","2016/17","2017/18","2018/19","2019/20","2020/21","2021/22","2022/23","2023/24","2024/25"],
+      y:[4,5,6,2,6,3,2,6,3,8,15],
+      line:{color:"#da291c",width:3},marker:{color:"#da291c",size:9},
+      yaxis:"y2",hovertemplate:"<b>%{x}</b><br>PL finish: %{y}<extra></extra>"}
+  ],{...B,margin:{l:60,r:60,t:14,b:70},
+    xaxis:{tickangle:-40,gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",tickfont:{size:10}},
+    yaxis:{title:"Wage bill £m",gridcolor:"rgba(255,255,255,.06)",color:"#8ab4ff",range:[0,320],titlefont:{color:"#8ab4ff"},tickfont:{color:"#8ab4ff"}},
+    yaxis2:{title:"PL Position",overlaying:"y",side:"right",autorange:"reversed",range:[0,20],color:"#da291c",titlefont:{color:"#da291c"},tickfont:{color:"#da291c"},gridcolor:"rgba(0,0,0,0)"},
+    legend:{x:0.02,y:0.98,bgcolor:"rgba(0,0,0,.5)",font:{size:11}}
+  },C).then(()=>hideSkeleton("sk-wage"))
+    .catch(()=>chartError("chart-wage","sk-wage","fb-wage")),
+
+  "chart-gap":()=>Plotly.newPlot("chart-gap",[
+    {type:"scatter",mode:"lines+markers",name:"PL Finish",
+      x:[2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      y:[6,2,6,3,2,6,3,8,15],
+      line:{color:"#da291c",width:3},marker:{color:"#da291c",size:8},
+      hovertemplate:"<b>%{x}</b> · PL Finish: <b>%{y}</b><extra></extra>"},
+    {type:"scatter",mode:"lines+markers",name:"Money League Rank",
+      x:[2017,2018,2019,2020,2021,2022,2023,2024,2025],
+      y:[4,5,6,6,7,7,6,7,8],
+      line:{color:"#8ab4ff",width:2,dash:"dot"},marker:{color:"#8ab4ff",size:8},
+      hovertemplate:"<b>%{x}</b> · Money League rank: <b>%{y}</b><extra></extra>"}
+  ],{...B,margin:{l:50,r:20,t:14,b:44},
+    xaxis:{gridcolor:"rgba(255,255,255,.05)",color:"#8a95a5",dtick:1},
+    yaxis:{title:"Position (lower = better)",autorange:"reversed",range:[0,20],gridcolor:"rgba(255,255,255,.06)",color:"#8a95a5"},
+    legend:{x:0.02,y:0.1,bgcolor:"rgba(0,0,0,.5)",font:{size:11}}
+  },C).then(()=>hideSkeleton("sk-gap"))
+    .catch(()=>chartError("chart-gap","sk-gap","fb-gap"))
+};
+
+/* HAMBURGER */
+function toggleNav(){
+  const h=document.getElementById("hamburger");
+  const d=document.getElementById("nav-drawer");
+  h.classList.toggle("open");
+  d.classList.toggle("open");
+}
+document.addEventListener("click",function(e){
+  const h=document.getElementById("hamburger");
+  const d=document.getElementById("nav-drawer");
+  if(!h.contains(e.target)&&!d.contains(e.target)){
+    h.classList.remove("open");
+    d.classList.remove("open");
+  }
+});
+
+/* LAZY CHARTS */
+const rendered=new Set();
+const chartObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!rendered.has(e.target.id)){
+      rendered.add(e.target.id);
+      CHARTS[e.target.id]?.();
+    }
+  });
+},{rootMargin:"0px 0px 200px 0px",threshold:0.01});
+Object.keys(CHARTS).forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)chartObs.observe(el);
+});
+
+/* DEBT BAR */
+setTimeout(()=>{const b=document.getElementById("debt-bar");if(b)b.style.width="74.9%";},1900);
+
+/* COUNTERS */
+function animateCounter(el){
+  const target=+el.dataset.target;
+  const prefix=el.dataset.prefix||"";
+  const suffix=el.dataset.suffix||"";
+  let current=0;
+  const step=16;
+  const inc=target/(1800/step);
+  const t=setInterval(()=>{
+    current=Math.min(current+inc,target);
+    el.textContent=prefix+Math.round(current).toLocaleString()+suffix;
+    if(current>=target)clearInterval(t);
+  },step);
+}
+const counterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll(".counter").forEach(animateCounter);
+      counterObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+const heroEl=document.getElementById("hero");
+if(heroEl)counterObs.observe(heroEl);
+
+/* SCROLL PROGRESS + BACK TO TOP */
+window.addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  document.getElementById("progress").style.width=
+    ((h.scrollTop/(h.scrollHeight-h.clientHeight))*100)+"%";
+  const btn=document.getElementById("back-top");
+  if(btn){
+    if(h.scrollTop>400)btn.classList.add("visible");
+    else btn.classList.remove("visible");
+  }
+},{passive:true});
+
+/* FADE IN */
+const fadeObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");});
+},{threshold:0.08});
+document.querySelectorAll(".chapter").forEach(el=>fadeObs.observe(el));
+
+/* NAV ACTIVE */
+function goTo(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth"});}
+const idMap={
+  hero:0,"ch-now":1,"ch-governance":2,"ch-ba":3,
+  ch1:4,ch2:5,ch3:6,ch4:7,"ch-graveyard":8,
+  ch5:9,"ch-wage":10,"ch-sentiment":11,"ch-theory":12,ch6:13
+};
+const navBtns=document.querySelectorAll(".nav-links .nav-btn");
+const drawerBtns=document.querySelectorAll(".nav-drawer .nav-btn");
+const navObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=idMap[e.target.id];
+      if(idx!==undefined){
+        navBtns.forEach(b=>b.classList.remove("active"));
+        drawerBtns.forEach(b=>b.classList.remove("active"));
+        navBtns[idx]?.classList.add("active");
+        drawerBtns[idx]?.classList.add("active");
+      }
+    }
+  });
+},{threshold:0.35});
+Object.keys(idMap).forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)navObs.observe(el);
+});
+
+/* LOADER */
+window.addEventListener("load",()=>{
+  setTimeout(()=>{document.getElementById("loader").classList.add("done");},1900);
+});
+
+} /* end Plotly guard */
+</script>
+</body>
+</html>
+
