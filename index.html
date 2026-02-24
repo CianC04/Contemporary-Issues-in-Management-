@@ -242,8 +242,8 @@
     .t-dot{position:absolute;left:63px;top:14px;width:16px;height:16px;border-radius:50%;border:2px solid var(--red);background:var(--bg);z-index:1}
     @media(max-width:400px){.t-dot{left:45px;width:14px;height:14px}}
     .t-dot.sacked{background:var(--red)}
-    .t-yr{font-size:11px;color:var(--muted);min-width:56px;padding-top:2px;text-align:right}
-    @media(max-width:400px){.t-yr{font-size:10px;min-width:38px}}
+    .t-yr{font-size:11px;color:var(--muted);min-width:72px;padding-top:2px;text-align:right;line-height:1.4}
+    @media(max-width:400px){.t-yr{font-size:10px;min-width:54px}}
     .t-body{padding-left:32px}
     @media(max-width:400px){.t-body{padding-left:24px}}
     .t-name{font-size:14px;font-weight:700}
@@ -755,20 +755,96 @@
         <h2>Ten managers. Zero league titles. No plan.</h2>
         <p>When Ferguson retired in 2013 United had no succession plan. Every appointment since has been reactive, most ending mid-season. Amorim's sacking in January 2026 means United are now on their <b>tenth managerial regime in 13 years</b>.</p>
         <div class="timeline">
-          <div class="t-item"><div class="t-yr">2013-14</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">David Moyes <span class="badge sacked">Sacked</span></div><div class="t-note">7th · Sacked April 2014 after 10 months</div></div></div>
-          <div class="t-item"><div class="t-yr">2014-16</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Louis van Gaal <span class="badge sacked">Sacked</span></div><div class="t-note">FA Cup win · Sacked the day after winning the cup</div></div></div>
-          <div class="t-item"><div class="t-yr">2016-18</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">José Mourinho <span class="badge sacked">Sacked</span></div><div class="t-note">EFL Cup + Europa League · Sacked Dec 2018</div></div></div>
-          <div class="t-item"><div class="t-yr">2018-21</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Ole Gunnar Solskjaer <span class="badge sacked">Sacked</span></div><div class="t-note">2nd place 2021 · Sacked Nov 2021 after 5-0 vs Liverpool</div></div></div>
-          <div class="t-item"><div class="t-yr">Nov-Dec 2021</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Michael Carrick <span class="badge ok">Caretaker</span></div><div class="t-note">3 games unbeaten · stood aside for Rangnick</div></div></div>
-          <div class="t-item"><div class="t-yr">2021-22</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Ralf Rangnick <span class="badge ok">Interim</span></div><div class="t-note">6 months · 6th · Called for full rebuild</div></div></div>
-          <div class="t-item"><div class="t-yr">2022-24</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Erik ten Hag <span class="badge sacked">Sacked</span></div><div class="t-note">FA Cup 2024 · Contract extended then sacked Oct 2024</div></div></div>
-          <div class="t-item"><div class="t-yr">2024-Jan 2026</div><div class="t-dot sacked"></div><div class="t-body"><div class="t-name">Rúben Amorim <span class="badge sacked">Sacked</span></div><div class="t-note">Promised 3 years · Sacked 5 Jan 2026</div></div></div>
-          <div class="t-item"><div class="t-yr">Jan 2026–now</div><div class="t-dot"></div><div class="t-body"><div class="t-name">Michael Carrick <span class="badge current">Current</span></div><div class="t-note">Beat City, Arsenal, Fulham, Spurs · 4th · Top 2026 form table</div></div></div>
+
+          <div class="t-item">
+            <div class="t-yr">May 2013 –<br>Apr 2014</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">David Moyes <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">7th · Sacked April 2014 after 10 months</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Jul 2014 –<br>May 2016</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">Louis van Gaal <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">FA Cup win · Sacked the day after winning the cup</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">May 2016 –<br>Dec 2018</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">José Mourinho <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">EFL Cup + Europa League · Sacked Dec 2018</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Dec 2018 –<br>Nov 2021</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">Ole Gunnar Solskjaer <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">2nd place 2021 · Sacked Nov 2021 after 5-0 vs Liverpool</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Nov 2021 –<br>Dec 2021</div>
+            <div class="t-dot"></div>
+            <div class="t-body">
+              <div class="t-name">Michael Carrick <span class="badge ok">Caretaker</span></div>
+              <div class="t-note">3 games unbeaten · stood aside for Rangnick</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Dec 2021 –<br>Jun 2022</div>
+            <div class="t-dot"></div>
+            <div class="t-body">
+              <div class="t-name">Ralf Rangnick <span class="badge ok">Interim</span></div>
+              <div class="t-note">6 months · 6th · Called for full rebuild</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Jun 2022 –<br>Oct 2024</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">Erik ten Hag <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">FA Cup 2024 · Contract extended then sacked Oct 2024</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Nov 2024 –<br>Jan 2026</div>
+            <div class="t-dot sacked"></div>
+            <div class="t-body">
+              <div class="t-name">Rúben Amorim <span class="badge sacked">Sacked</span></div>
+              <div class="t-note">Promised 3 years · Sacked 5 Jan 2026</div>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-yr">Jan 2026 –<br>present</div>
+            <div class="t-dot"></div>
+            <div class="t-body">
+              <div class="t-name">Michael Carrick <span class="badge current">Current</span></div>
+              <div class="t-note">Beat City, Arsenal, Fulham, Spurs · 4th · Top 2026 form table</div>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="chart-box">
         <div class="chart-skeleton" id="sk-pts"></div>
-        <div class="chart-fallback" id="fb-pts"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Chart unavailable — please check your connection</div>
+        <div class="chart-fallback" id="fb-pts">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Chart unavailable — please check your connection
+        </div>
         <div class="chart-title-bar">Premier League Points per Season (2013/14–2024/25)</div>
         <div class="chart-sub">Tap any point for manager and finishing position</div>
         <div id="chart-pts" class="plotly-div"></div>
@@ -777,6 +853,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- MANAGER REPORT CARDS -->
 <div class="chapter" id="ch-managers">
