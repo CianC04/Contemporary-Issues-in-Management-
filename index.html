@@ -1399,7 +1399,7 @@
 <footer>
   <p>
     <span>Data story · Charts: Plotly.js</span> ·
-    <span>Last updated 23 February 2026</span> ·
+    <span id="footer-date"></span>
     <span>All facts cited</span> ·
     <span>Opinion sections clearly labelled</span>
   </p>
@@ -1525,7 +1525,7 @@ const CHARTS={
   "chart-rev":()=>Plotly.newPlot("chart-rev",[{
     type:"bar",
     x:["Real Madrid","Barcelona","Liverpool","Man City","Arsenal","Bayern Munich","PSG","Man United"],
-    y:[1045,915,905,868,842,830,802,793],
+    y:[1161,915,905,868,842,830,802,793],
     text:["~€1045m","~€915m","~€905m","~€868m","~€842m","~€830m","~€802m","€793m"],
     textposition:"outside",
     marker:{color:["rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","#da291c"],line:{color:"rgba(0,0,0,.2)",width:1}},
@@ -1682,6 +1682,11 @@ window.addEventListener("load",()=>{
 });
 
 } /* end Plotly guard */
+
+// Auto-update footer date
+document.getElementById('footer-date').textContent =
+  'Last updated ' + new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
 </script>
 </body>
 </html>
