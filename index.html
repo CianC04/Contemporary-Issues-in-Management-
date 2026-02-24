@@ -522,7 +522,7 @@
       <div class="stat"><div class="stat-val counter" data-target="1200" data-prefix="~£" data-suffix="m">~£0m</div><div class="stat-lbl">Extracted via debt interest, dividends and fees - BBC Verify, 2025</div></div>
       <div class="stat"><div class="stat-val counter" data-target="42" data-suffix=" pts">0 pts</div><div class="stat-lbl">2024/25 PL points - worst Premier League season in modern history</div></div>
       <div class="stat"><div class="stat-val">8th</div><div class="stat-lbl">Deloitte Money League 2026 - lowest ever rank for the club</div></div>
-      <div class="stat"><div class="stat-val counter" data-target="749" data-prefix="£" data-suffix="m">£0m</div><div class="stat-lbl">Net club debt mid-2025 - a record - ESPN, Dec 2025</div></div>
+      <div class="stat"><div class="stat-val counter" data-target="749" data-prefix="£" data-suffix="m">£0m</div><div class="stat-lbl">Net club debt Dec-2025 - a record - ESPN, Dec 2025</div></div>
       <div class="stat"><div class="stat-val counter" data-target="13" data-suffix=" yrs">0 yrs</div><div class="stat-lbl">Since last Premier League title - 2013 to February 2026</div></div>
       <div class="stat"><div class="stat-val counter" data-target="130" data-prefix="~£" data-suffix="m+">~£0m+</div><div class="stat-lbl">Estimated manager compensation paid since 2013</div></div>
     </div>
@@ -937,7 +937,7 @@
         <div class="mgr-verdict mixed">Given an impossible brief on 6-month interim terms. Called for a full rebuild on his way out — said United needed 10 new players. His diagnosis was accurate. Nobody listened. No compensation paid.</div>
       </div>
       <div class="mgr-card">
-        <div class="mgr-header"><div><div class="mgr-name">Erik ten Hag</div><div class="mgr-tenure">June 2022 – October 2024 · 2.5 seasons</div></div><div class="mgr-badge sacked">Sacked</div></div>
+        <div class="mgr-header"><div><div class="mgr-name">Erik ten Hag</div><div class="mgr-tenure">Jun 2022 – Oct 2024 · 2.5 seasons</div></div><div class="mgr-badge sacked">Sacked</div></div>
         <div class="mgr-stats">
           <div class="mgr-stat"><div class="mgr-stat-val">52.2%</div><div class="mgr-stat-lbl">Win rate</div></div>
           <div class="mgr-stat"><div class="mgr-stat-val gold">3rd</div><div class="mgr-stat-lbl">Best PL finish</div></div>
@@ -1686,7 +1686,11 @@ document.querySelector('.ticker').addEventListener('click', function(){
 
 window.addEventListener("load",()=>{
   setTimeout(()=>{document.getElementById("loader").classList.add("done");},1900);
+  // Auto-update the "Last updated" badge
+  const ub = document.querySelector('.updated-badge span');
+  if(ub) ub.textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
 });
+
 
 } /* end Plotly guard */
 
