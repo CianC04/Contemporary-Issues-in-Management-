@@ -592,7 +592,7 @@
 <!-- GOVERNANCE -->
 <div class="chapter" id="ch-governance">
   <div class="wrap">
-    <div class="ch-num">Chapter 00 - The Structure</div>
+    <div class="ch-num">Prologue - The Structure</div>
     <h2>The hybrid model that nobody will defend</h2>
     <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:6px">Before the money, the results or the managers - the root cause is governance. Manchester United in 2026 operates under what the Corporate Governance Institute called a "hybrid experiment" creating an internal power struggle at every level of the organisation.</p>
     <div class="gov-grid">
@@ -602,9 +602,9 @@
         <div class="gov-card-body">The Glazer family retain 48.9% and the largest single voting bloc. Despite stepping back from day-to-day operations they continue to receive dividends. A full sale - promised by Joel Glazer in 2022 - never materialised.</div>
       </div>
       <div class="gov-card">
-        <div class="gov-card-label">INEOS / Ratcliffe - 28.9%</div>
+        <div class="gov-card-label">INEOS / Ratcliffe - 27.7%</div>
         <div class="gov-card-title">Minority owner, majority headlines</div>
-        <div class="gov-card-body">Ratcliffe injected ~£240m to hold 28.9%. He controls day-to-day football operations but not the club outright. His own petrochemical company now carries £18bn of debt. He publicly promised Amorim "three years" and sacked him after 14 months.</div>
+        <div class="gov-card-body">Ratcliffe injected ~£240m to hold 27.7%. He controls day-to-day football operations but not the club outright. His own petrochemical company now carries £18bn of debt. He publicly promised Amorim "three years" and sacked him after 14 months.</div>
       </div>
       <div class="gov-card">
         <div class="gov-card-label">Football Structure</div>
@@ -626,7 +626,7 @@
 <!-- INEOS PROMISE TRACKER -->
 <div class="chapter" id="ch-promises">
   <div class="wrap">
-    <div class="ch-num">Chapter 00b - INEOS Accountability</div>
+    <div class="ch-num">Prologue II - INEOS Accountability</div>
     <h2>The INEOS Promise Tracker</h2>
     <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:20px">Every public commitment Ratcliffe made when he acquired 27.7% of Manchester United in February 2024 — tracked against reality as of February 2026.</p>
     <div class="promise-grid">
@@ -858,7 +858,7 @@
 <!-- MANAGER REPORT CARDS -->
 <div class="chapter" id="ch-managers">
   <div class="wrap">
-    <div class="ch-num">Chapter 02b - The Managers</div>
+    <div class="ch-num">Chapter 02b - Manager Report Cards</div>
     <h2>Ten regimes. One conclusion.</h2>
     <p style="color:var(--muted);font-size:15px;max-width:65ch;margin-bottom:6px">Every post-Ferguson manager was hired reactively, given conflicting briefs, and left before their project could mature. The combined cost of their compensations alone tells its own story.</p>
     <div class="comp-total">
@@ -1526,7 +1526,7 @@ const CHARTS={
     type:"bar",
     x:["Real Madrid","Barcelona","Liverpool","Man City","Arsenal","Bayern Munich","PSG","Man United"],
     y:[1161,915,905,868,842,830,802,793],
-    text:["~€1045m","~€915m","~€905m","~€868m","~€842m","~€830m","~€802m","€793m"],
+    text:["~€1,161m","~€915m","~€905m","~€868m","~€842m","~€830m","~€802m","€793m"],
     textposition:"outside",
     marker:{color:["rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","rgba(138,180,255,.3)","#da291c"],line:{color:"rgba(0,0,0,.2)",width:1}},
     hovertemplate:"%{x}: €%{y}m<extra></extra>"
@@ -1677,6 +1677,13 @@ Object.keys(idMap).forEach(id=>{
 });
 
 /* LOADER */
+/* TICKER TAP TO PAUSE */
+document.querySelector('.ticker').addEventListener('click', function(){
+  const inner = this.querySelector('.ticker-inner');
+  inner.style.animationPlayState =
+    inner.style.animationPlayState === 'paused' ? 'running' : 'paused';
+});
+
 window.addEventListener("load",()=>{
   setTimeout(()=>{document.getElementById("loader").classList.add("done");},1900);
 });
